@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আন্তর্জাতিক ব্যাংক একাউন্ট</title>
+    <title>Verification Portal - Hinami</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,556 +13,501 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --success: #2ed573;
+            --danger: #ff4757;
+            --warning: #ffa502;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+        }
+
         body {
-            background-color: #000;
-            color: #fff;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             padding: 20px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(28, 58, 173, 0.2) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(200, 30, 100, 0.15) 0%, transparent 20%),
-                radial-gradient(circle at 50% 50%, rgba(0, 50, 150, 0.1) 0%, transparent 50%);
+            color: var(--dark);
         }
 
         .container {
             width: 100%;
-            max-width: 1300px;
-            background: rgba(10, 10, 15, 0.9);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(100, 80, 255, 0.3);
-            border: 1px solid rgba(80, 100, 255, 0.2);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 1;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #ff0080, #00ccff, #ff0080);
-            z-index: 2;
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
 
         .header {
-            background: linear-gradient(135deg, rgba(15, 20, 40, 0.9), rgba(5, 10, 25, 0.9));
-            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo i {
+            font-size: 24px;
+        }
+
+        .balance {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+        }
+
+        .balance-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark);
             text-align: center;
-            border-bottom: 1px solid rgba(80, 100, 255, 0.3);
-            position: relative;
-            overflow: hidden;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(100, 80, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 128, 0.1) 0%, transparent 50%);
-            z-index: -1;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .header h1 {
-            font-size: 52px;
-            background: linear-gradient(90deg, #ff0080, #00ccff, #ffcc00, #00ff88, #ff0080);
-            background-size: 300% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            letter-spacing: 3px;
-            font-weight: 800;
-            animation: gradientShift 8s ease infinite;
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 213, 115, 0.3);
+        }
+
+        .btn-disabled {
+            background: #ccc;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+        .hint {
+            font-size: 14px;
+            color: var(--danger);
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            background: var(--success);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(106, 17, 203, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            color: var(--primary);
             margin-bottom: 10px;
         }
 
-        .header p {
-            font-size: 18px;
-            color: #a0a0ff;
-            letter-spacing: 1px;
+        .upload-text {
+            color: var(--gray);
         }
 
-        .content {
+        .preview-container {
             display: flex;
-            padding: 40px;
-            gap: 40px;
-        }
-
-        .left-section {
-            flex: 1;
-            padding: 30px;
-            background: rgba(15, 20, 40, 0.7);
-            border-radius: 20px;
-            border: 1px solid rgba(80, 100, 255, 0.2);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(80, 100, 255, 0.2);
-        }
-
-        .profile-img {
-            width: 180px;
-            height: 220px;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-right: 30px;
-            border: 3px solid transparent;
-            background-clip: padding-box;
-            position: relative;
+        }
+
+        .preview-box {
+            width: 120px;
+            height: 120px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .profile-img::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ff0080, #00ccff, #ffcc00);
-            border-radius: 17px;
-            z-index: -1;
-        }
-
-        .profile-img-content {
-            width: 100%;
-            height: 100%;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0f3460, #1a1a2e);
-            border-radius: 12px;
-            color: #b8c1ec;
-            font-size: 16px;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .profile-img-content i {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: #a0a0ff;
-        }
-
-        .profile-details {
-            flex: 1;
-        }
-
-        .profile-details h2 {
-            font-size: 32px;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, #ffcc00, #ff6600);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 10px rgba(255, 204, 0, 0.3);
-        }
-
-        .detail-item {
-            margin-bottom: 12px;
-            display: flex;
             align-items: center;
-        }
-
-        .detail-item i {
-            width: 30px;
-            color: #00ccff;
-            font-size: 18px;
-        }
-
-        .detail-item span {
-            color: #b8c1ec;
-            font-size: 18px;
-        }
-
-        .detail-item strong {
-            color: #ffcc00;
-            margin-right: 8px;
-        }
-
-        .bank-balance {
-            background: linear-gradient(135deg, rgba(20, 25, 50, 0.8), rgba(10, 15, 35, 0.8));
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            margin-top: 30px;
-            border: 1px solid rgba(80, 100, 255, 0.2);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: #f9f9f9;
             position: relative;
-            overflow: hidden;
         }
 
-        .bank-balance::before {
-            content: '';
+        .preview-box img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .preview-label {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(0, 204, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(255, 204, 0, 0.1) 0%, transparent 50%);
-            z-index: -1;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-size: 12px;
         }
 
-        .bank-balance h3 {
-            font-size: 26px;
-            margin-bottom: 20px;
-            color: #a0a0ff;
-            letter-spacing: 1px;
-        }
-
-        .balance-amount {
-            font-size: 64px;
-            font-weight: 800;
-            background: linear-gradient(90deg, #00ff88, #00ccff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
-            margin: 20px 0;
-            letter-spacing: 2px;
-        }
-
-        .currency {
-            font-size: 24px;
-            color: #ffcc00;
+        .website-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            color: var(--primary);
             font-weight: 600;
+            text-decoration: none;
+            padding: 12px 20px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            transition: all 0.3s;
         }
 
-        .balance-note {
+        .website-link:hover {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .confirmation-page {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .confirmation-icon {
+            font-size: 80px;
+            color: var(--success);
+            margin-bottom: 20px;
+            animation: bounce 1s;
+        }
+
+        .confirmation-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .confirmation-message {
             font-size: 18px;
-            color: #a0a0ff;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .bonus-amount {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--success);
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        .verification-code-inputs {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
             margin-top: 10px;
         }
 
-        .right-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        .bonus-section {
-            background: linear-gradient(135deg, rgba(20, 25, 50, 0.8), rgba(10, 15, 35, 0.8));
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(80, 100, 255, 0.2);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bonus-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(0, 204, 255, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
-
-        .section-header h3 {
-            font-size: 26px;
-            background: linear-gradient(90deg, #ff0080, #a0a0ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 1px;
-        }
-
-        .section-header i {
-            font-size: 28px;
-            color: #ffcc00;
-        }
-
-        .crypto-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .crypto-card {
-            background: rgba(15, 20, 40, 0.7);
-            padding: 25px;
-            border-radius: 15px;
+        .verification-code-inputs input {
             text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(80, 100, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .crypto-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(80, 100, 255, 0.1), transparent);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .crypto-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(100, 80, 255, 0.3);
-            border-color: rgba(100, 80, 255, 0.5);
-        }
-
-        .crypto-card:hover::before {
-            opacity: 1;
-        }
-
-        .crypto-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: #00ccff;
-        }
-
-        .crypto-name {
-            font-size: 18px;
-            margin-bottom: 12px;
-            color: #b8c1ec;
-        }
-
-        .crypto-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #00ff88;
-            transition: all 0.5s ease;
-        }
-
-        .value-up {
-            color: #00ff88;
-            animation: pulseGreen 1s ease;
-        }
-
-        .value-down {
-            color: #ff3366;
-            animation: pulseRed 1s ease;
-        }
-
-        .market-section {
-            background: linear-gradient(135deg, rgba(20, 25, 50, 0.8), rgba(10, 15, 35, 0.8));
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(80, 100, 255, 0.2);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .market-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 70%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 30%, rgba(255, 204, 0, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
-
-        .market-chart {
-            height: 200px;
-            background: rgba(10, 15, 30, 0.7);
-            border-radius: 15px;
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(80, 100, 255, 0.2);
-        }
-
-        .chart-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .chart-line {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 80%;
-            background: linear-gradient(to top, rgba(0, 255, 136, 0.3), transparent);
-            transition: all 2s ease;
-        }
-
-        .live-line {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: rgba(255, 255, 255, 0.7);
-            animation: liveLineMove 3s linear infinite;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .chart-points {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 15px;
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-        }
-
-        .chart-point {
-            font-size: 12px;
-            color: #a0a0ff;
-        }
-
-        .market-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .stat-card {
-            background: rgba(15, 20, 40, 0.7);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(80, 100, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            border-color: rgba(0, 204, 255, 0.5);
-        }
-
-        .stat-name {
-            font-size: 14px;
-            color: #a0a0ff;
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
             font-size: 20px;
             font-weight: bold;
-            color: #00ff88;
-            transition: all 0.5s ease;
         }
 
-        .negative {
-            color: #ff3366;
-        }
-
-        .positive {
-            color: #00ff88;
-        }
-
-        .footer {
-            background: linear-gradient(135deg, rgba(15, 20, 40, 0.9), rgba(5, 10, 25, 0.9));
-            padding: 25px;
+        /* New Loading Animation */
+        .loading-spinner {
+            display: none;
             text-align: center;
-            border-top: 1px solid rgba(80, 100, 255, 0.3);
-            color: #a0a0ff;
+            margin: 30px 0;
+        }
+
+        .pulse-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulse-dot 1.4s ease-in-out infinite both;
+        }
+
+        .pulse-dot:nth-child(1) { animation-delay: -0.32s; }
+        .pulse-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        .loading-text {
+            margin-top: 15px;
+            color: var(--gray);
             font-size: 16px;
-            letter-spacing: 1px;
+            font-weight: 500;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .verification-steps {
+            margin: 20px 0;
+            text-align: left;
         }
 
-        @keyframes pulseGreen {
+        .verification-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+        }
+
+        .step-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .step-text {
+            flex: 1;
+            color: var(--gray);
+        }
+
+        .step-complete .step-icon {
+            background: var(--success);
+            color: white;
+        }
+
+        .step-complete .step-text {
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .step-active .step-icon {
+            background: var(--primary);
+            color: white;
+            animation: pulse 1.5s infinite;
+        }
+
+        .step-active .step-text {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .share-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: center;
+        }
+
+        .share-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--light);
+            color: var(--dark);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .share-btn.save {
+            background: var(--primary);
+            color: white;
+        }
+
+        .share-btn.share {
+            background: var(--success);
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
-        @keyframes pulseRed {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes liveLineMove {
-            0% { left: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { left: 100%; opacity: 0; }
-        }
-
-        @keyframes chartAnimation {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        @media (max-width: 1100px) {
-            .content {
-                flex-direction: column;
+        @keyframes pulse-dot {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
             }
-            
-            .left-section, .right-section {
-                width: 100%;
+            40% {
+                transform: scale(1);
+                opacity: 1;
             }
         }
 
         @media (max-width: 768px) {
-            .profile {
+            .container {
+                max-width: 100%;
+            }
+            
+            .header {
                 flex-direction: column;
+                gap: 15px;
                 text-align: center;
             }
             
-            .profile-img {
-                margin-right: 0;
-                margin-bottom: 25px;
+            .balance {
+                align-items: center;
+            }
+
+            .preview-container {
+                justify-content: center;
+            }
+
+            .share-options {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
             }
             
-            .crypto-grid {
-                grid-template-columns: 1fr;
+            .verification-code-inputs {
+                gap: 5px;
             }
             
-            .header h1 {
-                font-size: 36px;
-            }
-            
-            .balance-amount {
-                font-size: 48px;
+            .verification-code-inputs input {
+                font-size: 18px;
+                padding: 10px;
             }
         }
     </style>
@@ -570,297 +515,369 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>আন্তর্জাতিক ব্যাংক একাউন্ট</h1>
-            <p>প্রিমিয়াম ব্যাংকিং এক্সপেরিয়েন্স</p>
+            <div class="logo">
+                <i class="fas fa-id-card"></i>
+                <span>Hinami Verification</span>
+            </div>
+            <div class="balance">
+                <div class="balance-label">Balance</div>
+                <div class="balance-value">$00.00</div>
+            </div>
         </div>
-        
-        <div class="content">
-            <div class="left-section">
-                <div class="profile">
-                    <div class="profile-img">
-                        <div class="profile-img-content">
-                            <i class="fas fa-passport"></i>
-                            পাসপোর্ট ছবি<br>JAMSHED KHAN
-                        </div>
-                    </div>
-                    <div class="profile-details">
-                        <h2>JAMSHED KHAN</h2>
-                        <div class="detail-item">
-                            <i class="fas fa-globe-asia"></i>
-                            <span><strong>দেশ:</strong> বাংলাদেশ</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-plane"></i>
-                            <span><strong>গন্তব্য:</strong> সৌদি আরব</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-passport"></i>
-                            <span><strong>পাসপোর্ট নং:</strong> BD789456123</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-id-card"></i>
-                            <span><strong>একাউন্ট নং:</strong> 789456123012</span>
-                        </div>
-                    </div>
+
+        <!-- Login Page -->
+        <div class="card page active" id="loginPage">
+            <h2 class="card-title">Login to Your Account</h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" id="loginBtn">Login</button>
+            
+            <!-- Login Loading -->
+            <div class="loading-spinner" id="loginLoading">
+                <div class="pulse-loader">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
                 </div>
-                
-                <div class="bank-balance">
-                    <h3>ব্যাংক ব্যালেন্স</h3>
-                    <div class="balance-amount">50,236 <span class="currency">টাকা</span></div>
-                    <p class="balance-note">বর্তমান ব্যালেন্স</p>
-                </div>
+                <div class="loading-text">Authenticating your credentials...</div>
+            </div>
+        </div>
+
+        <!-- Verification Page -->
+        <div class="card page" id="verificationPage">
+            <h2 class="card-title">Complete Your Verification</h2>
+            
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" placeholder="Enter your mobile number">
+                <div class="hint" id="mobileHint">Please enter a valid mobile number</div>
             </div>
             
-            <div class="right-section">
-                <div class="bonus-section">
-                    <div class="section-header">
-                        <h3>Dollar Price</h3>
-                        <i class="fas fa-gift"></i>
+            <div class="form-group">
+                <label for="verificationCode">6-Digit Verification Code</label>
+                <div class="verification-code-inputs">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                    <input type="text" maxlength="1" class="code-input">
+                </div>
+                <div class="hint" id="codeHint">Please enter the 6-digit verification code</div>
+            </div>
+            
+            <div class="form-group">
+                <label>NID Front & Back</label>
+                <div class="upload-area" id="nidUpload">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
                     </div>
-                    <div class="crypto-grid">
-                        <div class="crypto-card">
-                            <div class="crypto-icon"><i class="fab fa-bitcoin"></i></div>
-                            <div class="crypto-name">বিটকয়েন (BTC)</div>
-                            <div class="crypto-value" id="btc-value">$42,156.78</div>
-                        </div>
-                        <div class="crypto-card">
-                            <div class="crypto-icon"><i class="fab fa-ethereum"></i></div>
-                            <div class="crypto-name">বিএনবি (BNB)</div>
-                            <div class="crypto-value" id="bnb-value">$312.45</div>
-                        </div>
-                        <div class="crypto-card">
-                            <div class="crypto-icon"><i class="fas fa-coins"></i></div>
-                            <div class="crypto-name">ইথেরিয়াম (ETH)</div>
-                            <div class="crypto-value" id="eth-value">$2,845.67</div>
-                        </div>
-                        <div class="crypto-card">
-                            <div class="crypto-icon"><i class="fab fa-bitcoin"></i></div>
-                            <div class="crypto-name">ডজকয়েন (DOGE)</div>
-                            <div class="crypto-value" id="doge-value">$0.0789</div>
-                        </div>
+                    <div class="upload-text">Click to upload NID images (Front & Back)</div>
+                </div>
+                <input type="file" id="nidFront" accept="image/*" style="display: none;">
+                <input type="file" id="nidBack" accept="image/*" style="display: none;">
+                <div class="preview-container">
+                    <div class="preview-box" id="nidFrontPreview">
+                        <span>Front Preview</span>
+                        <div class="preview-label">Front</div>
+                    </div>
+                    <div class="preview-box" id="nidBackPreview">
+                        <span>Back Preview</span>
+                        <div class="preview-label">Back</div>
                     </div>
                 </div>
+                <div class="hint" id="nidHint">Please upload both NID images</div>
+            </div>
+            
+            <button class="btn btn-disabled" id="verifyBtn" disabled>Verify</button>
+            
+            <!-- Verification Loading -->
+            <div class="loading-spinner" id="verificationLoading">
+                <div class="pulse-loader">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <div class="loading-text">Processing your verification...</div>
                 
-                <div class="market-section">
-                    <div class="section-header">
-                        <h3>Share Market</h3>
-                        <i class="fas fa-chart-line"></i>
+                <div class="verification-steps">
+                    <div class="verification-step" id="step1">
+                        <div class="step-icon">1</div>
+                        <div class="step-text">Validating mobile number</div>
                     </div>
-                    <div class="market-chart">
-                        <div class="chart-container">
-                            <div class="chart-line" id="market-chart"></div>
-                            <div class="live-line" id="live-line"></div>
-                            <div class="chart-points">
-                                <div class="chart-point">জানু</div>
-                                <div class="chart-point">ফেব্রু</div>
-                                <div class="chart-point">মার্চ</div>
-                                <div class="chart-point">এপ্রিল</div>
-                                <div class="chart-point">মে</div>
-                                <div class="chart-point">জুন</div>
-                            </div>
-                        </div>
+                    <div class="verification-step" id="step2">
+                        <div class="step-icon">2</div>
+                        <div class="step-text">Checking verification code</div>
                     </div>
-                    <div class="market-stats">
-                        <div class="stat-card">
-                            <div class="stat-name">আজকের লাভ</div>
-                            <div class="stat-value" id="today-profit">+2.34%</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-name">মোট বিনিয়োগ</div>
-                            <div class="stat-value">15,670 টাকা</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-name">মোট লাভ</div>
-                            <div class="stat-value" id="total-profit">3,450 টাকা</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-name">পোর্টফোলিও মূল্য</div>
-                            <div class="stat-value" id="portfolio-value">19,120 টাকা</div>
-                        </div>
+                    <div class="verification-step" id="step3">
+                        <div class="step-icon">3</div>
+                        <div class="step-text">Processing NID documents</div>
+                    </div>
+                    <div class="verification-step" id="step4">
+                        <div class="step-icon">4</div>
+                        <div class="step-text">Final verification</div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="footer">
-            <p>আন্তর্জাতিক ব্যাংক একাউন্ট - সকল অধিকার সংরক্ষিত © ২০২5</p>
+
+        <!-- Confirmation Page -->
+        <div class="card page confirmation-page" id="confirmationPage">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="confirmation-title">Verification Successful!</h2>
+            <p class="confirmation-message">Congratulations! Your account has been successfully verified.</p>
+            <div class="bonus-amount">100 Bonus</div>
+            <p class="confirmation-message">Your bonus has been added to your account balance.</p>
+            
+            <!-- Website Link moved to success page -->
+            <a href="https://www.hinami.com" class="website-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i>
+                Visit our website: www.hinami.com
+            </a>
+            
+            <!-- Buttons moved below website link -->
+            <div class="share-options">
+                <button class="share-btn save" id="saveBtn">
+                    <i class="fas fa-download"></i>
+                    Save as PDF
+                </button>
+                <button class="share-btn share" id="shareBtn">
+                    <i class="fas fa-share-alt"></i>
+                    Share
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // ক্রিপ্টোকারেন্সি ডেটা
-        const cryptoData = {
-            btc: { value: 42156.78, element: null },
-            bnb: { value: 312.45, element: null },
-            eth: { value: 2845.67, element: null },
-            doge: { value: 0.0789, element: null }
-        };
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const verificationPage = document.getElementById('verificationPage');
+        const confirmationPage = document.getElementById('confirmationPage');
+        const loginBtn = document.getElementById('loginBtn');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        
+        // Loading elements
+        const loginLoading = document.getElementById('loginLoading');
+        const verificationLoading = document.getElementById('verificationLoading');
+        
+        // Verification steps
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const step4 = document.getElementById('step4');
+        
+        // Form inputs
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const mobileInput = document.getElementById('mobile');
+        const codeInputs = document.querySelectorAll('.code-input');
+        const nidFrontInput = document.getElementById('nidFront');
+        const nidBackInput = document.getElementById('nidBack');
+        
+        // Hints
+        const mobileHint = document.getElementById('mobileHint');
+        const codeHint = document.getElementById('codeHint');
+        const nidHint = document.getElementById('nidHint');
+        
+        // State variables
+        let nidFrontUploaded = false;
+        let nidBackUploaded = false;
 
-        // মার্কেট ডেটা
-        let marketData = {
-            todayProfit: 2.34,
-            totalProfit: 3450,
-            portfolioValue: 19120
-        };
-
-        // এলিমেন্ট রেফারেন্স
-        const btcElement = document.getElementById('btc-value');
-        const bnbElement = document.getElementById('bnb-value');
-        const ethElement = document.getElementById('eth-value');
-        const dogeElement = document.getElementById('doge-value');
-        const todayProfitElement = document.getElementById('today-profit');
-        const totalProfitElement = document.getElementById('total-profit');
-        const portfolioValueElement = document.getElementById('portfolio-value');
-        const marketChart = document.getElementById('market-chart');
-        const liveLine = document.getElementById('live-line');
-
-        // এলিমেন্ট রেফারেন্স সেট করা
-        cryptoData.btc.element = btcElement;
-        cryptoData.bnb.element = bnbElement;
-        cryptoData.eth.element = ethElement;
-        cryptoData.doge.element = dogeElement;
-
-        // র্যান্ডম সংখ্যা জেনারেটর
-        function getRandomChange(min, max) {
-            return Math.random() * (max - min) + min;
-        }
-
-        // মার্কেট আপডেট ফাংশন
-        function updateMarket() {
-            // ক্রিপ্টোকারেন্সি মান আপডেট
-            Object.keys(cryptoData).forEach(key => {
-                const change = getRandomChange(-2, 2);
-                const previousValue = cryptoData[key].value;
-                cryptoData[key].value = previousValue * (1 + change / 100);
+        // Login functionality with new loading animation
+        loginBtn.addEventListener('click', function() {
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            
+            if (username === 'admin' && password === '1234') {
+                // Show loading
+                loginBtn.style.display = 'none';
+                loginLoading.style.display = 'block';
                 
-                // নতুন মান ফরম্যাট করা
-                const newValue = cryptoData[key].value.toFixed(2);
-                
-                // মান আপডেট এবং এনিমেশন যোগ করা
-                cryptoData[key].element.textContent = `$${newValue}`;
-                
-                if (change > 0) {
-                    cryptoData[key].element.classList.add('value-up');
-                    setTimeout(() => {
-                        cryptoData[key].element.classList.remove('value-up');
-                    }, 1000);
-                } else if (change < 0) {
-                    cryptoData[key].element.classList.add('value-down');
-                    setTimeout(() => {
-                        cryptoData[key].element.classList.remove('value-down');
-                    }, 1000);
-                }
-            });
-
-            // মার্কেট ডেটা আপডেট
-            const marketChange = getRandomChange(-1, 1);
-            marketData.todayProfit = (marketData.todayProfit + marketChange).toFixed(2);
-            marketData.totalProfit = Math.max(0, marketData.totalProfit + (marketChange * 10));
-            marketData.portfolioValue = Math.max(0, marketData.portfolioValue + (marketChange * 50));
-
-            // মার্কেট ডেটা ডিসপ্লে আপডেট
-            todayProfitElement.textContent = `${marketData.todayProfit >= 0 ? '+' : ''}${marketData.todayProfit}%`;
-            todayProfitElement.className = `stat-value ${marketData.todayProfit >= 0 ? 'positive' : 'negative'}`;
-            
-            totalProfitElement.textContent = `${Math.round(marketData.totalProfit).toLocaleString()} টাকা`;
-            portfolioValueElement.textContent = `${Math.round(marketData.portfolioValue).toLocaleString()} টাকা`;
-
-            // চার্ট আপডেট
-            updateChart();
-        }
-
-        // চার্ট আপডেট ফাংশন
-        function updateChart() {
-            // র্যান্ডম চার্ট প্যাটার্ন তৈরি করা
-            const points = [];
-            for (let i = 0; i <= 100; i += 10) {
-                points.push(Math.random() * 80 + 20);
-            }
-            
-            // চার্ট প্যাথ তৈরি করা
-            const path = `polygon(0% 100%, ${points.map((point, index) => {
-                return `${index * 10}% ${100 - point}%`;
-            }).join(', ')}, 100% 100%)`;
-            
-            // চার্ট আপডেট
-            marketChart.style.clipPath = path;
-            
-            // চার্ট কালার আপডেট
-            const isPositive = marketData.todayProfit >= 0;
-            marketChart.style.background = isPositive 
-                ? 'linear-gradient(to top, rgba(0, 255, 136, 0.3), transparent)' 
-                : 'linear-gradient(to top, rgba(255, 51, 102, 0.3), transparent)';
-        }
-
-        // লাইভ লাইন এনিমেশন
-        function animateLiveLine() {
-            // লাইভ লাইন পজিশন রিসেট
-            liveLine.style.left = '0%';
-            
-            // প্রতি 3 সেকেন্ডে লাইভ লাইন এনিমেশন
-            setInterval(() => {
-                liveLine.style.left = '0%';
+                // Simulate login process
                 setTimeout(() => {
-                    liveLine.style.transition = 'left 3s linear';
-                    liveLine.style.left = '100%';
-                }, 100);
-            }, 3000);
+                    loginPage.classList.remove('active');
+                    verificationPage.classList.add('active');
+                }, 2500);
+            } else {
+                alert('Invalid credentials. Please use admin/1234');
+            }
+        });
+
+        // Upload area click handler
+        document.getElementById('nidUpload').addEventListener('click', function() {
+            nidFrontInput.click();
+        });
+
+        // Handle file selection for NID front
+        nidFrontInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('nidFrontPreview').innerHTML = 
+                        `<img src="${event.target.result}" alt="NID Front">
+                         <div class="preview-label">Front</div>`;
+                    nidFrontUploaded = true;
+                    validateForm();
+                };
+                reader.readAsDataURL(e.target.files[0]);
+                
+                // After selecting front, prompt for back
+                setTimeout(() => {
+                    nidBackInput.click();
+                }, 500);
+            }
+        });
+
+        // Handle file selection for NID back
+        nidBackInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('nidBackPreview').innerHTML = 
+                        `<img src="${event.target.result}" alt="NID Back">
+                         <div class="preview-label">Back</div>`;
+                    nidBackUploaded = true;
+                    validateForm();
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // Verification code input handling
+        codeInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                // Move to next input if current input has value
+                if (e.target.value && index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                }
+                validateForm();
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                // Move to previous input on backspace if current input is empty
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    codeInputs[index - 1].focus();
+                }
+            });
+            
+            // Allow only numbers
+            input.addEventListener('keypress', (e) => {
+                if (!/[0-9]/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Form validation function
+        function validateForm() {
+            const mobileValid = mobileInput.value.trim() !== '';
+            const codeValid = Array.from(codeInputs).every(input => input.value !== '');
+            const nidValid = nidFrontUploaded && nidBackUploaded;
+            
+            // Show hints for empty fields
+            mobileHint.style.display = mobileValid ? 'none' : 'block';
+            codeHint.style.display = codeValid ? 'none' : 'block';
+            nidHint.style.display = nidValid ? 'none' : 'block';
+            
+            // Enable/disable verify button
+            if (mobileValid && codeValid && nidValid) {
+                verifyBtn.disabled = false;
+                verifyBtn.classList.remove('btn-disabled');
+                verifyBtn.classList.add('btn-primary');
+            } else {
+                verifyBtn.disabled = true;
+                verifyBtn.classList.add('btn-disabled');
+                verifyBtn.classList.remove('btn-primary');
+            }
         }
 
-        // ব্যালেন্স আপডেট করার জন্য জাভাস্ক্রিপ্ট
-        document.addEventListener('DOMContentLoaded', function() {
-            const balanceElement = document.querySelector('.balance-amount');
-            let balance = 50236;
+        // Input event listeners for real-time validation
+        mobileInput.addEventListener('input', validateForm);
+
+        // Verify button click handler with step-by-step verification
+        verifyBtn.addEventListener('click', function() {
+            // Show verification loading
+            verifyBtn.style.display = 'none';
+            verificationLoading.style.display = 'block';
             
-            // ক্রিপ্টো কার্ডে এনিমেশন যোগ করা
-            const cryptoCards = document.querySelectorAll('.crypto-card');
-            cryptoCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px)';
-                    this.style.boxShadow = '0 15px 30px rgba(100, 80, 255, 0.3)';
-                });
+            // Step-by-step verification process
+            setTimeout(() => {
+                step1.classList.add('step-active');
+            }, 500);
+            
+            setTimeout(() => {
+                step1.classList.remove('step-active');
+                step1.classList.add('step-complete');
+                step2.classList.add('step-active');
+            }, 1500);
+            
+            setTimeout(() => {
+                step2.classList.remove('step-active');
+                step2.classList.add('step-complete');
+                step3.classList.add('step-active');
+            }, 2500);
+            
+            setTimeout(() => {
+                step3.classList.remove('step-active');
+                step3.classList.add('step-complete');
+                step4.classList.add('step-active');
+            }, 3500);
+            
+            setTimeout(() => {
+                step4.classList.remove('step-active');
+                step4.classList.add('step-complete');
                 
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = 'none';
-                });
-            });
-            
-            // ব্যালেন্স কাউন্টার এফেক্ট
-            let currentBalance = 0;
-            const increment = balance / 50;
-            
-            const balanceCounter = setInterval(() => {
-                currentBalance += increment;
-                if (currentBalance >= balance) {
-                    currentBalance = balance;
-                    clearInterval(balanceCounter);
-                }
-                balanceElement.innerHTML = Math.floor(currentBalance).toLocaleString() + ' <span class="currency">টাকা</span>';
-            }, 50);
-            
-            // মার্কেট স্ট্যাটস এনিমেশন
-            const statCards = document.querySelectorAll('.stat-card');
-            statCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = 'none';
-                });
-            });
+                // Show confirmation page
+                setTimeout(() => {
+                    verificationPage.classList.remove('active');
+                    confirmationPage.classList.add('active');
+                    
+                    // Update balance in header
+                    document.querySelector('.balance-value').textContent = '$100.00';
+                }, 1000);
+            }, 4500);
+        });
 
-            // ইনিশিয়াল চার্ট সেটআপ
-            updateChart();
+        // Save as PDF button
+        saveBtn.addEventListener('click', function() {
+            // Simulate PDF download
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            setTimeout(() => {
+                saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                setTimeout(() => {
+                    saveBtn.innerHTML = '<i class="fas fa-download"></i> Save as PDF';
+                }, 2000);
+            }, 1500);
+        });
 
-            // লাইভ লাইন এনিমেশন শুরু
-            animateLiveLine();
+        // Share button
+        shareBtn.addEventListener('click', function() {
+            // Simulate share functionality
+            shareBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sharing...';
+            setTimeout(() => {
+                shareBtn.innerHTML = '<i class="fas fa-check"></i> Shared!';
+                setTimeout(() => {
+                    shareBtn.innerHTML = '<i class="fas fa-share-alt"></i> Share';
+                }, 2000);
+            }, 1500);
+        });
 
-            // প্রতি ৩ সেকেন্ডে মার্কেট আপডেট
-            setInterval(updateMarket, 3000);
+        // Enter key support for login
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loginBtn.click();
+            }
         });
     </script>
 </body>
